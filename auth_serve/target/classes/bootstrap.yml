@@ -1,7 +1,7 @@
 server:
   port: 9100
 
-***REMOVED***
+spring:
   profiles:
     active: dev
 
