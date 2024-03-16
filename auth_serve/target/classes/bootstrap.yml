@@ -1,0 +1,27 @@
+server:
+  port: 9100
+
+***REMOVED***
+  profiles:
+    active: dev
+
+  application:
+    name: auth-service
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

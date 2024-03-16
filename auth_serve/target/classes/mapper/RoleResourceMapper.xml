@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whs.cloud.auth.mapper.RoleResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.whs.cloud.auth.bean.RoleResource">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="roleId" column="role_id" jdbcType="BIGINT"/>
+        <result property="reourceId" column="reource_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <resultMap id="initResourceRelRole" type="com.whs.cloud.auth.bean.vo.RoleAndResourceVo">
+        <result column="url" property="url"/>
+        <collection property="roleName" ofType="java.lang.String">
+            <result column="role_name" javaType="String"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, role_id, resource_id
+</sql>
+
+    <select id="loadResourceRelRole" resultMap="initResourceRelRole">
+    select a.role_name as role_name, c.url as url from cloud_auth_role a
+    left join cloud_auth_role_resource b on a.id = b.role_id
+    left join cloud_auth_resource c on c.id = b.resource_id
+</select>
+
+</mapper>

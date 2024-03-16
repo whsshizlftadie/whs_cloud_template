@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.whs.cloud.basic.config.FillMetaObjectHandler,\
+  com.whs.cloud.basic.config.PasswordEncoderConfig
