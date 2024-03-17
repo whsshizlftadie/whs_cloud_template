@@ -105,4 +105,12 @@ public final class Pager<T> implements IPage<T> {
         return this;
     }
 
+    public String getOrders() {
+        return orders;
+    }
+
+    public Pager<T> setOrders(String orders) {
+        this.orders = orders;
+        return this;
+    }
 }

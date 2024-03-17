@@ -13,4 +13,8 @@
     <sql id="Base_Column_List">
         id,role_id,user_id
     </sql>
+    <select id="loadRoleNameByUsername" resultType="java.lang.String">
+        select c.role_name as role_name from cloud_auth_user a left join cloud_auth_user_role b on a.id=b.user_id
+        left join cloud_auth_role c on c.id=b.role_id where a.username=#{username}
+    </select>
 </mapper>
