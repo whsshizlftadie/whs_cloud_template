@@ -1,6 +1,7 @@
 package com.whs.cloud.auth.bean;
 
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -37,11 +38,13 @@ public class Resource implements Serializable {
     /**
      * 
      */
+    @TableField ( fill = FieldFill. INSERT )
     private Date createTime;
 
     /**
      * 
      */
+    @TableField ( fill = FieldFill . UPDATE )
     private Date modifyTime;
 
     @TableField(exist = false)

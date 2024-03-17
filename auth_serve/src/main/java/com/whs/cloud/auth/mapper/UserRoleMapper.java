@@ -3,6 +3,8 @@ package com.whs.cloud.auth.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.whs.cloud.auth.bean.UserRole;
 
+import java.util.List;
+
 /**
  * @author 86157
  * @description 针对表【cloud_auth_user_role】的数据库操作Mapper
@@ -10,7 +12,7 @@ import com.whs.cloud.auth.bean.UserRole;
  * @Entity generator.baen.UserRole
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
-
+    List<String> loadRoleNameByUsername(String username);
 }
 
 
