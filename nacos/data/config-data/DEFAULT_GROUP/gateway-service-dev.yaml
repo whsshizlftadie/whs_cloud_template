@@ -7,4 +7,4 @@ spring:
   redis:
     port: 6379
     host: r-2zeyuqc3gxnv418zoopd.redis.rds.aliyuncs.com
-    password: ***REMOVED***
+    password: xxxx
