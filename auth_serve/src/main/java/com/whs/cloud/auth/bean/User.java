@@ -45,13 +45,13 @@ public class User implements Serializable {
     /**
      * 
      */
-    @TableField ( fill = FieldFill. INSERT , select = false )
+    @TableField ( fill = FieldFill. INSERT)
     private Date createTime;
 
     /**
      * 
      */
-    @TableField ( fill = FieldFill . UPDATE , select = false )
+    @TableField ( fill = FieldFill . UPDATE)
     private Date modifyTime;
 
     @TableField(exist = false)

@@ -16,6 +16,7 @@ import com.whs.cloud.auth.exception.UserException;
 import com.whs.cloud.auth.mapper.UserMapper;
 import com.whs.cloud.auth.mapper.UserRoleMapper;
 import com.whs.cloud.auth.service.RoleService;
+import com.whs.cloud.auth.service.UserRoleService;
 import com.whs.cloud.auth.service.UserService;
 import com.whs.cloud.auth.utils.jwt.JWTUtils;
 import com.whs.cloud.basic.contextUsage.UserContext;
@@ -27,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +50,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Autowired
     private UserRoleMapper userRoleMapper;
 
+
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public LoginResponse login(LoginRequest request) {
@@ -90,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         User user = lambdaQuery().eq(User::getUsername, request.getUsername()).one();
 
-        if (ObjectUtils.isEmpty(user)) {
+        if (!ObjectUtils.isEmpty(user)) {
             throw new UserException("user has been exists");
         }
 
@@ -107,21 +110,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new UserException("save user info fail");
         }
 
+
         List<String> roles = new ArrayList<>();
+        if (!(request.getRoles() != null && !request.getRoles().isEmpty())) {
 
-        roles.add("common");
 
-        Long roleId = roleService.lambdaQuery().eq(Role::getRoleName, "common").getEntity().getId();
+            roles.add("common");
 
-        UserRole userRole = new UserRole();
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getId());
 
-        userRole.setUserId(user.getId());
-        userRole.setRoleId(roleId);
+            Long roleId = roleService.lambdaQuery().eq(Role::getRoleName, "common").one().getId();
 
-        int insert = userRoleMapper.insert(userRole);
+            userRole.setRoleId(roleId);
 
-        if (insert != 1) {
-            throw new UserException("insert userRole rel fail!");
+            int insert = userRoleMapper.insert(userRole);
+
+            if (insert != 1) {
+                throw new UserException("insert userRole rel fail!");
+            }
+
+        } else {
+            List<UserRole> userRoleList = new ArrayList<>();
+            List<Role> roleList = roleService.lambdaQuery().in(Role::getRoleName, request.getRoles()).list();
+            for (Role role : roleList) {
+                UserRole userRole = new UserRole();
+                userRole.setUserId(user.getId());
+                userRole.setRoleId(role.getId());
+                roles.add(role.getRoleName());
+                userRoleList.add(userRole);
+            }
+
+            boolean saveBatch = userRoleService.saveBatch(userRoleList, userRoleList.size());
+
+            if (!saveBatch){
+                throw new UserException("insert batch userRole rel fail!");
+            }
         }
 
         RegisterResponse registerResponse = new RegisterResponse();
@@ -160,35 +184,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         String token = UserContext.getTokenFromHttpServletHeader();
 
-        String username=null;
+        String username = null;
         try {
             JWTUtils.msgVerifyUser msgVerifyUser = jwtUtils.verifyToken(token);
-            username=msgVerifyUser.getUsername();
-        } catch (Exception e){
+            username = msgVerifyUser.getUsername();
+        } catch (Exception e) {
             throw new UserException(e.getMessage());
         }
 
-        if (StringUtils.isEmpty(username)){
+        if (StringUtils.isEmpty(username)) {
             throw new UserException("verify token can not get username");
         }
 
-        if (!username.equals(user.getUsername())){
+        if (!username.equals(user.getUsername())) {
             throw new UserException("has not access to update this useInfo");
         }
 
         User userFromDB = lambdaQuery().eq(User::getUsername, username).one();
 
-        if (!userFromDB.getId().equals(user.getId())){
+        if (!userFromDB.getId().equals(user.getId())) {
             throw new UserException("has not access to update this useInfo");
         }
 
         boolean update = updateById(user);
 
-        if (!update){
+        if (!update) {
             throw new UserException("update user info fail IN DB");
         }
 
-        return null;
+        return true;
     }
 
     @Override
