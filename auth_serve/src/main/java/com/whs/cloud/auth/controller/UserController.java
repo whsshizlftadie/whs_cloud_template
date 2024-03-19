@@ -56,6 +56,10 @@ public class UserController {
             throw new UserException("this user id not exists");
         }
 
+        if(user.getIsDelete().equals(1)){
+            throw new UserException("user has been delete");
+        }
+
         return RestResult.success(user);
     }
 
