@@ -25,11 +25,13 @@ public class UserController {
         return RestResult.success(userService.count());
     }
 
+
     @PostMapping("/login")
     public RestResult login(@RequestBody LoginRequest request){
         LoginResponse response = userService.login(request);
         return RestResult.success(response);
     }
+
 
     @PostMapping("/register")
     public RestResult register(@RequestBody RegisterRequest request){

@@ -3,6 +3,8 @@ package com.whs.cloud.auth.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.whs.cloud.auth.bean.Role;
+import com.whs.cloud.auth.bean.request.page.PageRequest;
+import com.whs.cloud.auth.bean.response.page.PageResponse;
 
 /**
 * @author 86157
@@ -11,4 +13,13 @@ import com.whs.cloud.auth.bean.Role;
 */
 public interface RoleService extends IService<Role> {
 
+    PageResponse<Role> page(PageRequest request);
+
+    Role getById(Long id);
+
+    Boolean update(Role role);
+
+    Boolean del(Long id);
+
+    Boolean add(Role role);
 }
