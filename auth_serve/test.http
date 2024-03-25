@@ -1,0 +1,41 @@
+POST localhost:9100/auth/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123456"
+}
+
+###
+POST localhost:9100/auth/user/register
+Content-Type: application/json
+
+{
+   "username": "test12",
+   "password": "123456",
+   "roles": [
+      "common",
+      "worker",
+      "vip"
+   ]
+}
+
+###
+PUT localhost:9100/auth/user/update
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbInRvcF9hZG1pbiIsInZpcCIsIndvcmtlciJdLCJleHAiOjE3MTA5NTA1NzksInVzZXJuYW1lIjoiYWRtaW4ifQ.gN5xc3XEHdILx3dGj_h6HCJTDs3CcUvpkeYCWCLd3Ps
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "id": 1,
+  "description": "admin test vip1"
+}
+
+###
+POST localhost:9100/auth/user/page
+Content-Type: application/json
+
+{
+  "size": 2,
+  "current": 1
+}
