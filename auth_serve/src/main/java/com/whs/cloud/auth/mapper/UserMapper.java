@@ -2,6 +2,9 @@ package com.whs.cloud.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.whs.cloud.auth.bean.User;
+import com.whs.cloud.auth.bean.vo.UserAndRoleVo;
+
+import java.util.List;
 
 /**
  * @author 86157
@@ -11,6 +14,7 @@ import com.whs.cloud.auth.bean.User;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    List<UserAndRoleVo> getRoleByUserId(List<Long> ids);
 }
 
 

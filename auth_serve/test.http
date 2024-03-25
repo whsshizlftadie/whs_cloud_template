@@ -39,3 +39,6 @@ Content-Type: application/json
   "size": 2,
   "current": 1
 }
+
+###
+GET localhost:9100/auth/user/roles/1,1769284255438061570

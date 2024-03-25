@@ -2,9 +2,12 @@ package com.whs.cloud.auth.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.whs.cloud.auth.bean.Resource;
 import com.whs.cloud.auth.bean.Role;
 import com.whs.cloud.auth.bean.request.page.PageRequest;
 import com.whs.cloud.auth.bean.response.page.PageResponse;
+
+import java.util.List;
 
 /**
 * @author 86157
@@ -22,4 +25,6 @@ public interface RoleService extends IService<Role> {
     Boolean del(Long id);
 
     Boolean add(Role role);
+
+    List<Resource> getResourcesByRoleId(Long id);
 }

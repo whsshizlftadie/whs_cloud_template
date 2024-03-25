@@ -5,14 +5,33 @@
 <mapper namespace="com.whs.cloud.auth.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.whs.cloud.auth.bean.User">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="UserAndRoleVoMapper" type="com.whs.cloud.auth.bean.vo.UserAndRoleVo">
+
+        <id property="id" column="uid" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="pwd" jdbcType="VARCHAR"/>
+        <result property="avatarUrl" column="avurl" jdbcType="VARCHAR"/>
+        <result property="description" column="udescription" jdbcType="VARCHAR"/>
+        <result property="createTime" column="ucratetime" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="umodifytime" jdbcType="TIMESTAMP"/>
+
+        <collection property="roles" ofType="com.whs.cloud.auth.bean.Role">
+            <id property="id" column="rid" jdbcType="BIGINT"/>
+            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+            <result property="description" column="rdescription" jdbcType="VARCHAR"/>
+            <result property="createTime" column="rcratetime" jdbcType="TIMESTAMP"/>
+            <result property="modifyTime" column="rmodifytime" jdbcType="TIMESTAMP"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -20,4 +39,33 @@
         avatar_url,description,is_delete,
         create_time,modify_time
     </sql>
+
+    <select id="getRoleByUserId"
+            resultType="com.whs.cloud.auth.bean.vo.UserAndRoleVo"
+            resultMap="UserAndRoleVoMapper">
+        select
+        A.id as uid,
+        A.create_time as ucratetime ,
+        A.modify_time as umodifytime,
+        A.password as pwd,
+        A.avatar_url as avurl,
+        A.username as username,
+        A.description as udescription,
+        C.id as rid,
+        C.create_time as rcratetime ,
+        C.modify_time as rmodifytime,
+        C.description as rdescription,
+        C.role_name as role_name
+        from cloud_auth_user A
+        left join cloud_auth_user_role B
+        on A.id=B.user_id
+        left join cloud_auth_role C
+        on B.role_id = C.id
+        where A.id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
 </mapper>

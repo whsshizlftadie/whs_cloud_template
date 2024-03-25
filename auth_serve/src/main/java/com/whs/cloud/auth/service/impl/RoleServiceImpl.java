@@ -2,6 +2,7 @@ package com.whs.cloud.auth.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.whs.cloud.auth.bean.Resource;
 import com.whs.cloud.auth.bean.Role;
 import com.whs.cloud.auth.bean.request.page.PageRequest;
 import com.whs.cloud.auth.bean.response.page.PageResponse;
@@ -14,6 +15,8 @@ import com.whs.cloud.basic.result.RestResult;
 import com.whs.cloud.basic.result.constant.TimeOrderSet;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author 86157
@@ -99,6 +102,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
         }
 
         return true;
+    }
+
+    @Override
+    public List<Resource> getResourcesByRoleId(Long id) {
+
+
+
+        return null;
     }
 
 }

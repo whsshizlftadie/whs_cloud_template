@@ -2,6 +2,7 @@ package com.whs.cloud.auth.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.whs.cloud.auth.bean.Role;
 import com.whs.cloud.auth.bean.User;
 import com.whs.cloud.auth.bean.request.page.PageRequest;
 import com.whs.cloud.auth.bean.request.user.LoginRequest;
@@ -9,6 +10,9 @@ import com.whs.cloud.auth.bean.request.user.RegisterRequest;
 import com.whs.cloud.auth.bean.response.page.PageResponse;
 import com.whs.cloud.auth.bean.response.user.LoginResponse;
 import com.whs.cloud.auth.bean.response.user.RegisterResponse;
+import com.whs.cloud.auth.bean.vo.UserAndRoleVo;
+
+import java.util.List;
 
 /**
 * @author 86157
@@ -27,5 +31,6 @@ public interface UserService extends IService<User> {
 
     PageResponse<User> page(PageRequest request);
 
+    List<UserAndRoleVo> getRolesByUserId(String ids);
 
 }

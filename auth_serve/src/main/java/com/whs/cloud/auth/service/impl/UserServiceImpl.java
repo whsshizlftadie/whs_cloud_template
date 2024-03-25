@@ -1,6 +1,7 @@
 package com.whs.cloud.auth.service.impl;
 
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nimbusds.jose.JOSEException;
 import com.whs.cloud.auth.bean.Role;
@@ -12,6 +13,7 @@ import com.whs.cloud.auth.bean.request.user.RegisterRequest;
 import com.whs.cloud.auth.bean.response.page.PageResponse;
 import com.whs.cloud.auth.bean.response.user.LoginResponse;
 import com.whs.cloud.auth.bean.response.user.RegisterResponse;
+import com.whs.cloud.auth.bean.vo.UserAndRoleVo;
 import com.whs.cloud.auth.exception.UserException;
 import com.whs.cloud.auth.mapper.UserMapper;
 import com.whs.cloud.auth.mapper.UserRoleMapper;
@@ -30,7 +32,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 86157
@@ -230,6 +234,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 .setTotal(page.getTotal()).setCurrent(page.getCurrent());
 
         return userPageResponse;
+    }
+
+    @Override
+    public List<UserAndRoleVo> getRolesByUserId(String ids) {
+
+        List<String> idsList = Arrays.stream(ids.split(",")).collect(Collectors.toList());
+
+        List<User> userList = lambdaQuery().in(User::getId, idsList).eq(User::getIsDelete,0).list();
+
+        if (userList.size()!=idsList.size()){
+            throw new UserException("one or more userInfo not exists");
+        }
+
+        List<Long> idsRealList = idsList.stream().map(i -> Long.parseLong(i)).collect(Collectors.toList());
+
+        List<UserAndRoleVo> roleByUserId = this.baseMapper.getRoleByUserId(idsRealList);
+
+        return roleByUserId;
     }
 }
 
