@@ -239,7 +239,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public List<UserAndRoleVo> getRolesByUserId(String ids) {
 
-        List<String> idsList = Arrays.stream(ids.split(",")).collect(Collectors.toList());
+        List<String> idsList = Arrays.stream(ids.split(",")).distinct().collect(Collectors.toList());
 
         List<User> userList = lambdaQuery().in(User::getId, idsList).eq(User::getIsDelete,0).list();
 
