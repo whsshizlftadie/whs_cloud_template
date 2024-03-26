@@ -3,7 +3,7 @@ package com.whs.cloud.auth.bean.vo;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class RoleAndResourceVo {
+public class ResourceAndRoleVo {
 
     private List<String> roleName;
 
@@ -13,7 +13,7 @@ public class RoleAndResourceVo {
         return roleName;
     }
 
-    public RoleAndResourceVo setRoleName(List<String> roleName) {
+    public ResourceAndRoleVo setRoleName(List<String> roleName) {
         this.roleName = roleName;
         return this;
     }
@@ -22,14 +22,14 @@ public class RoleAndResourceVo {
         return url;
     }
 
-    public RoleAndResourceVo setUrl(String url) {
+    public ResourceAndRoleVo setUrl(String url) {
         this.url = url;
         return this;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", RoleAndResourceVo.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ResourceAndRoleVo.class.getSimpleName() + "[", "]")
                 .add("roleName='" + roleName + "'")
                 .add("url='" + url + "'")
                 .toString();

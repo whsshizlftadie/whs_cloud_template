@@ -10,7 +10,7 @@
         <result property="reourceId" column="reource_id" jdbcType="BIGINT"/>
     </resultMap>
 
-    <resultMap id="initResourceRelRole" type="com.whs.cloud.auth.bean.vo.RoleAndResourceVo">
+    <resultMap id="initResourceRelRole" type="com.whs.cloud.auth.bean.vo.ResourceAndRoleVo">
         <result column="url" property="url"/>
         <collection property="roleName" ofType="java.lang.String">
             <result column="role_name" javaType="String"/>

@@ -44,8 +44,8 @@ public class RoleController {
         return RestResult.success();
     }
 
-    @GetMapping("/resources/{id}")
-    public RestResult getResourcesByRoleId(@PathVariable Long id){
+    @GetMapping("/resources/{ids}")
+    public RestResult getResourcesByRoleId(@PathVariable String ids){
         return RestResult.success();
     }
 

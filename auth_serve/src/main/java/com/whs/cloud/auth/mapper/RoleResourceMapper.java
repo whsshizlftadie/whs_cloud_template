@@ -2,7 +2,7 @@ package com.whs.cloud.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.whs.cloud.auth.bean.RoleResource;
-import com.whs.cloud.auth.bean.vo.RoleAndResourceVo;
+import com.whs.cloud.auth.bean.vo.ResourceAndRoleVo;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface RoleResourceMapper extends BaseMapper<RoleResource> {
 
-    List<RoleAndResourceVo> loadResourceRelRole();
+    List<ResourceAndRoleVo> loadResourceRelRole();
 }
 
 

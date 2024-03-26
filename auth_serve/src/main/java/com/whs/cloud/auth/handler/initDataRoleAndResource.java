@@ -1,6 +1,6 @@
 package com.whs.cloud.auth.handler;
 
-import com.whs.cloud.auth.bean.vo.RoleAndResourceVo;
+import com.whs.cloud.auth.bean.vo.ResourceAndRoleVo;
 import com.whs.cloud.auth.mapper.RoleResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,15 +23,15 @@ public class initDataRoleAndResource {
     @PostConstruct
     public void initRel() {
 
-        List<RoleAndResourceVo> roleAndResourceVos = roleResourceMapper.loadResourceRelRole();
+        List<ResourceAndRoleVo> resourceAndRoleVos = roleResourceMapper.loadResourceRelRole();
 
         Map<String, List<String>> resourceMap = new HashMap<>();
 
-        for (RoleAndResourceVo roleAndResourceVo : roleAndResourceVos) {
+        for (ResourceAndRoleVo resourceAndRoleVo : resourceAndRoleVos) {
 
-            String url = roleAndResourceVo.getUrl();
+            String url = resourceAndRoleVo.getUrl();
 
-            resourceMap.computeIfAbsent(url, v -> roleAndResourceVo.getRoleName());
+            resourceMap.computeIfAbsent(url, v -> resourceAndRoleVo.getRoleName());
 
         }
 
