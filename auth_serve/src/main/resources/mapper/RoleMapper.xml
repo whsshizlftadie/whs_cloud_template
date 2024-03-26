@@ -5,16 +5,50 @@
 <mapper namespace="com.whs.cloud.auth.mapper.RoleMapper">
 
     <resultMap id="BaseResultMap" type="com.whs.cloud.auth.bean.Role">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="RoleAndResources" type="com.whs.cloud.auth.bean.vo.RoleAndResourceVo">
+        <id property="id" column="rid" jdbcType="BIGINT"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="description" column="rdescription" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="ris_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="rcreate_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="rmodify_time" jdbcType="TIMESTAMP"/>
+        <collection property="resources" ofType="com.whs.cloud.auth.bean.Resource">
+            <id property="id" column="sid" jdbcType="BIGINT"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,role_name,description,
         is_delete,create_time,modify_time
     </sql>
+    <select id="getRoleAndResources" resultType="com.whs.cloud.auth.bean.vo.RoleAndResourceVo" resultMap="RoleAndResources">
+        select A.id as rid,
+        A.role_name as role_name,
+        A.description as rdescription,
+        A.is_delete as ris_delete,
+        A.create_time as rcreate_time,
+        A.modify_time as rmodify_time,
+        C.*
+        from cloud_auth_role A
+        left join cloud_auth_role_resource B on A.id=B.role_id
+        left join cloud_auth_resource C on C.id=B.resource_id
+        where A.id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

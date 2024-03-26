@@ -5,16 +5,17 @@
 <mapper namespace="com.whs.cloud.auth.mapper.ResourceMapper">
 
     <resultMap id="BaseResultMap" type="com.whs.cloud.auth.bean.Resource">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,resource_name,description,
-        is_delete,create_time,modify_time
+        is_delete,create_time,modify_time,url
     </sql>
 </mapper>

@@ -42,3 +42,7 @@ Content-Type: application/json
 
 ###
 GET localhost:9100/auth/user/roles/1,1769284255438061570,1770127183911800834,1
+
+
+###
+GET localhost:9100/auth/role/resources/1,2,3

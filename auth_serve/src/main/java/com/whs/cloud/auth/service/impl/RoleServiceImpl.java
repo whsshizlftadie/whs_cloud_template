@@ -1,22 +1,27 @@
 package com.whs.cloud.auth.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import com.whs.cloud.auth.bean.Resource;
 import com.whs.cloud.auth.bean.Role;
+import com.whs.cloud.auth.bean.User;
+import com.whs.cloud.auth.bean.UserRole;
 import com.whs.cloud.auth.bean.request.page.PageRequest;
+import com.whs.cloud.auth.bean.request.role.RoleBindUserRequest;
 import com.whs.cloud.auth.bean.response.page.PageResponse;
+import com.whs.cloud.auth.bean.vo.RoleAndResourceVo;
 import com.whs.cloud.auth.exception.RoleException;
 import com.whs.cloud.auth.mapper.RoleMapper;
-
 import com.whs.cloud.auth.service.RoleService;
+import com.whs.cloud.auth.service.UserRoleService;
+import com.whs.cloud.auth.service.UserService;
 import com.whs.cloud.basic.result.Pager;
-import com.whs.cloud.basic.result.RestResult;
 import com.whs.cloud.basic.result.constant.TimeOrderSet;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 86157
@@ -26,6 +31,12 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
         implements RoleService {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public PageResponse<Role> page(PageRequest request) {
@@ -39,7 +50,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
         Pager<Role> rolePager = page(pager);
 
-        if (rolePager.getSize()<=0){
+        if (rolePager.getSize() <= 0) {
             throw new RoleException("no more role info");
         }
 
@@ -55,7 +66,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
         Role role = lambdaQuery().eq(Role::getId, id).eq(Role::getIsDelete, 0).one();
 
-        if(ObjectUtils.isEmpty(role)){
+        if (ObjectUtils.isEmpty(role)) {
             throw new RoleException("role not exists");
         }
 
@@ -67,7 +78,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
         Role existsRole = lambdaQuery().eq(Role::getId, role.getId()).eq(Role::getIsDelete, 0).one();
 
-        if (ObjectUtils.isEmpty(existsRole)){
+        if (ObjectUtils.isEmpty(existsRole)) {
             throw new RoleException("role info not exists");
         }
 
@@ -91,25 +102,60 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
         Role existsRole = lambdaQuery().eq(Role::getRoleName, role.getRoleName()).one();
 
-        if (ObjectUtils.isEmpty(existsRole)){
+        if (ObjectUtils.isEmpty(existsRole)) {
             throw new RoleException("role name has been exists");
         }
 
         int insert = this.getBaseMapper().insert(role);
 
-        if (insert<=0){
+        if (insert <= 0) {
             throw new RoleException("add role fail");
         }
 
         return true;
     }
 
+
     @Override
-    public List<Resource> getResourcesByRoleId(Long id) {
+    public List<RoleAndResourceVo> roleAndResources(String ids) {
+        List<Long> idList
+                = Arrays.stream(ids.split(","))
+                .distinct().map(i -> Long.parseLong(i)).collect(Collectors.toList());
 
+        Integer count = lambdaQuery().eq(Role::getIsDelete, 0).in(Role::getId, idList).count();
 
+        if (count != idList.size()) {
+            throw new RoleException("one ore more role not exists");
+        }
 
-        return null;
+        List<RoleAndResourceVo> roleAndResources = this.baseMapper.getRoleAndResources(idList);
+
+        return roleAndResources;
+
+    }
+
+    @Override
+    public Boolean roleBindUser(RoleBindUserRequest request) {
+
+        List<UserRole> userRoles = request.getUserRoles();
+
+        List<Long> userIds = userRoles.stream().map(i -> i.getUserId()).collect(Collectors.toList());
+        List<Long> roleIds = userRoles.stream().map(i -> i.getRoleId()).collect(Collectors.toList());
+
+        Integer roleCnt = lambdaQuery().in(Role::getId, roleIds).eq(Role::getIsDelete, 0).count();
+        Integer userCnt = userService.lambdaQuery().in(User::getId, userIds).eq(User::getIsDelete, 0).count();
+
+        if (roleCnt != userIds.size() || userCnt != userIds.size()) {
+            throw new RoleException("some role or user not exists");
+        }
+
+        boolean saveBatch = userRoleService.saveBatch(userRoles);
+
+        if (!saveBatch) {
+            throw new RoleException("insert batch userRole fail");
+        }
+
+        return true;
     }
 
 }

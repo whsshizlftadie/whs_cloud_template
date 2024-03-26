@@ -3,6 +3,7 @@ package com.whs.cloud.auth.controller;
 
 import com.whs.cloud.auth.bean.Role;
 import com.whs.cloud.auth.bean.request.page.PageRequest;
+import com.whs.cloud.auth.bean.request.role.RoleBindUserRequest;
 import com.whs.cloud.auth.service.RoleService;
 import com.whs.cloud.basic.result.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,13 @@ public class RoleController {
 
     @GetMapping("/resources/{ids}")
     public RestResult getResourcesByRoleId(@PathVariable String ids){
-        return RestResult.success();
+        return RestResult.success(roleService.roleAndResources(ids));
     }
+
+    @PostMapping("/bind/users")
+    public RestResult bindUsers(@RequestBody RoleBindUserRequest request){
+        return RestResult.success(roleService.roleBindUser(request));
+    }
+
 
 }

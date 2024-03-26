@@ -2,11 +2,13 @@ package com.whs.cloud.auth;
 
 
 import com.nimbusds.jose.JOSEException;
-import com.whs.cloud.auth.bean.Role;
+import com.whs.cloud.auth.bean.vo.ResourceAndRoleVo;
 import com.whs.cloud.auth.bean.vo.RoleAndResourceVo;
+import com.whs.cloud.auth.mapper.RoleMapper;
 import com.whs.cloud.auth.mapper.RoleResourceMapper;
 import com.whs.cloud.auth.service.UserService;
 import com.whs.cloud.auth.utils.jwt.JWTUtils;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +28,9 @@ public class auth {
     private RoleResourceMapper roleResourceMapper;
 
     @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
     private JWTUtils jwtUtils;
 
     @Test
@@ -35,9 +40,9 @@ public class auth {
 
     @Test
     public void testInitRoleRelResourceUrlSql() {
-        List<RoleAndResourceVo> roleAndResourceVos = roleResourceMapper.loadResourceRelRole();
+        List<ResourceAndRoleVo> resourceAndRoleVos = roleResourceMapper.loadResourceRelRole();
 
-        roleAndResourceVos.forEach(i -> System.out.println(i));
+        resourceAndRoleVos.forEach(i -> System.out.println(i));
     }
 
     @Test
@@ -59,7 +64,9 @@ public class auth {
 
     @Test
     public void testGetRolesByUserId() {
-//        List<Role> rolesByUserId = userService.getRolesByUserId(1L);
-//        rolesByUserId.forEach(i -> System.out.println(i));
+        List<Long> ids=new ArrayList<>();
+        ids.add(1L);
+        List<RoleAndResourceVo> roleAndResources = roleMapper.getRoleAndResources(ids);
+        roleAndResources.forEach(i-> System.out.println(i));
     }
 }
