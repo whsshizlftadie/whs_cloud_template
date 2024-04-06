@@ -98,13 +98,17 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
 
         List<RoleResource> roleResources = request.getRoleResources();
 
-        List<Long> resourceIds = roleResources.stream().map(i -> i.getReourceId()).distinct().collect(Collectors.toList());
+        List<Long> resourceIds
+                = roleResources.stream().map(i -> i.getReourceId()).distinct().collect(Collectors.toList());
 
-        List<Long> roleIds = roleResources.stream().map(i -> i.getRoleId()).distinct().collect(Collectors.toList());
+        List<Long> roleIds
+                = roleResources.stream().map(i -> i.getRoleId()).distinct().collect(Collectors.toList());
 
-        Integer resourceCnt = lambdaQuery().eq(Resource::getIsDelete, 0).in(Resource::getId, resourceIds).count();
+        Integer resourceCnt
+                = lambdaQuery().eq(Resource::getIsDelete, 0).in(Resource::getId, resourceIds).count();
 
-        Integer roleCnt = roleService.lambdaQuery().eq(Role::getIsDelete, 0).in(Role::getId, roleIds).count();
+        Integer roleCnt
+                = roleService.lambdaQuery().eq(Role::getIsDelete, 0).in(Role::getId, roleIds).count();
 
         if (roleCnt != roleIds.size() || resourceCnt != resourceIds.size()) {
             throw new ResourceException("resource or role not exists");

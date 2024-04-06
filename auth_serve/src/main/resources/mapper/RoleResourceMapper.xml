@@ -23,8 +23,8 @@
 
     <select id="loadResourceRelRole" resultMap="initResourceRelRole">
     select a.role_name as role_name, c.url as url from cloud_auth_role a
-    left join cloud_auth_role_resource b on a.id = b.role_id
-    left join cloud_auth_resource c on c.id = b.resource_id
+    left join cloud_auth_role_resource b on a.id = b.role_id and a.is_delete=0
+    left join cloud_auth_resource c on c.id = b.resource_id and c.is_delete=0
 </select>
 
 </mapper>

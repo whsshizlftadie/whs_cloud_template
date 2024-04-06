@@ -48,7 +48,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
         pager.setCurrent(current).setSize(size);
         pager.setOrders(TimeOrderSet.CREAT_TIME_DESC);
 
-        Pager<Role> rolePager = page(pager);
+        Pager<Role> rolePager = page(pager, lambdaQuery().eq(Role::getIsDelete, 0));
 
         if (rolePager.getSize() <= 0) {
             throw new RoleException("no more role info");

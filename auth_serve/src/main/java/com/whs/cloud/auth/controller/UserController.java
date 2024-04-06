@@ -50,8 +50,9 @@ public class UserController {
         return RestResult.success(update);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/simple/{id}")
     public RestResult getUserById(@PathVariable Long id) {
+
         User user = userService.getById(id);
 
         if (ObjectUtils.isEmpty(user)) {
@@ -63,6 +64,7 @@ public class UserController {
         }
 
         return RestResult.success(user);
+
     }
 
     @PostMapping("/page")

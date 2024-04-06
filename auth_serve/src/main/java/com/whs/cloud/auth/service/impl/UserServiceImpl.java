@@ -19,7 +19,6 @@ import com.whs.cloud.auth.mapper.UserRoleMapper;
 import com.whs.cloud.auth.service.RoleService;
 import com.whs.cloud.auth.service.UserRoleService;
 import com.whs.cloud.auth.service.UserService;
-
 import com.whs.cloud.basic.contextUsage.UserContext;
 import com.whs.cloud.basic.result.Pager;
 import com.whs.cloud.basic.result.constant.TimeOrderSet;
@@ -118,7 +117,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         List<String> roles = new ArrayList<>();
         if (!(request.getRoles() != null && !request.getRoles().isEmpty())) {
-
 
             roles.add("common");
 
@@ -226,7 +224,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         Pager<User> userPager = new Pager<>();
         userPager.setCurrent(request.getCurrent()).setSize(request.getSize());
         userPager.setOrders(TimeOrderSet.CREAT_TIME_DESC);
-        Pager<User> page = page(userPager);
+        Pager<User> page = page(userPager, lambdaQuery().eq(User::getIsDelete, 0));
 
         PageResponse<User> userPageResponse = new PageResponse<>();
 
