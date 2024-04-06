@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.whs.cloud.basic.config.FillMetaObjectHandler,\
   com.whs.cloud.basic.config.PasswordEncoderConfig,\
-  com.whs.cloud.basic.config.JacksonConfig
+  com.whs.cloud.basic.config.JacksonConfig,\
+  com.whs.cloud.basic.utils.JWTUtils

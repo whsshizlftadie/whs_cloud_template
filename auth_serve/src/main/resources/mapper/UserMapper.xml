@@ -45,7 +45,7 @@
             resultMap="UserAndRoleVoMapper">
         select
         A.id as uid,
-        A.create_time as ucratetime ,
+        A.create_time as ucratetime,
         A.modify_time as umodifytime,
         A.password as pwd,
         A.avatar_url as avurl,
@@ -65,6 +65,7 @@
         <foreach collection="list" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
+        AND C.is_delete=0
     </select>
 
 

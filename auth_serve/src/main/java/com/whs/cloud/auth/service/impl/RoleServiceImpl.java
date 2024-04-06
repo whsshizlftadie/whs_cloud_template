@@ -139,8 +139,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
         List<UserRole> userRoles = request.getUserRoles();
 
-        List<Long> userIds = userRoles.stream().map(i -> i.getUserId()).collect(Collectors.toList());
-        List<Long> roleIds = userRoles.stream().map(i -> i.getRoleId()).collect(Collectors.toList());
+        List<Long> userIds = userRoles.stream().map(i -> i.getUserId()).distinct().collect(Collectors.toList());
+        List<Long> roleIds = userRoles.stream().map(i -> i.getRoleId()).distinct().collect(Collectors.toList());
 
         Integer roleCnt = lambdaQuery().in(Role::getId, roleIds).eq(Role::getIsDelete, 0).count();
         Integer userCnt = userService.lambdaQuery().in(User::getId, userIds).eq(User::getIsDelete, 0).count();

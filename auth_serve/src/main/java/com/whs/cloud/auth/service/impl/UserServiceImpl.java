@@ -1,7 +1,6 @@
 package com.whs.cloud.auth.service.impl;
 
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nimbusds.jose.JOSEException;
 import com.whs.cloud.auth.bean.Role;
@@ -20,10 +19,11 @@ import com.whs.cloud.auth.mapper.UserRoleMapper;
 import com.whs.cloud.auth.service.RoleService;
 import com.whs.cloud.auth.service.UserRoleService;
 import com.whs.cloud.auth.service.UserService;
-import com.whs.cloud.auth.utils.jwt.JWTUtils;
+
 import com.whs.cloud.basic.contextUsage.UserContext;
 import com.whs.cloud.basic.result.Pager;
 import com.whs.cloud.basic.result.constant.TimeOrderSet;
+import com.whs.cloud.basic.utils.JWTUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,7 +148,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             boolean saveBatch = userRoleService.saveBatch(userRoleList, userRoleList.size());
 
-            if (!saveBatch){
+            if (!saveBatch) {
                 throw new UserException("insert batch userRole rel fail!");
             }
         }
@@ -241,9 +241,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         List<String> idsList = Arrays.stream(ids.split(",")).distinct().collect(Collectors.toList());
 
-        List<User> userList = lambdaQuery().in(User::getId, idsList).eq(User::getIsDelete,0).list();
+        List<User> userList = lambdaQuery().in(User::getId, idsList).eq(User::getIsDelete, 0).list();
 
-        if (userList.size()!=idsList.size()){
+        if (userList.size() != idsList.size()) {
             throw new UserException("one or more userInfo not exists");
         }
 

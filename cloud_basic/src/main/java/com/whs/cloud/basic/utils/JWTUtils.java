@@ -1,14 +1,11 @@
-package com.whs.cloud.auth.utils.jwt;
+package com.whs.cloud.basic.utils;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
 import net.minidev.json.JSONObject;
-import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.*;
 
@@ -77,7 +74,7 @@ public class JWTUtils {
         return msgVerifyUser;
     }
 
-    public class msgVerifyUser{
+    public class msgVerifyUser {
         private String username;
         private List<String> role;
 

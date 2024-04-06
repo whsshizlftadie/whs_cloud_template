@@ -50,5 +50,6 @@
         <foreach collection="list" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+        AND C.is_delete=0
     </select>
 </mapper>
