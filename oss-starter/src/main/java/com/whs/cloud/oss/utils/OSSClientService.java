@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
+@Deprecated
 public class OSSClientService {
 
     private final OSS OSSClient;
@@ -46,7 +46,6 @@ public class OSSClientService {
         } catch (Exception e) {
             return new OSSRestResult().fail("获取内容发生了异常:" + e.getMessage());
         }
-
     }
 
     private void uploadBytes(String bucket,String fileName,byte[] bytes){
@@ -56,6 +55,8 @@ public class OSSClientService {
             throw ex;
         }
     }
+
+
 
     public class OSSRestResult<T> {
 
@@ -95,4 +96,6 @@ public class OSSClientService {
             return tossRestResult;
         }
     }
+
+
 }

@@ -2,8 +2,7 @@ package com.whs.cloud.oss.config;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-
-import com.whs.cloud.oss.utils.OSSClientService;
+import com.whs.cloud.oss.utils.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -57,6 +56,16 @@ public class OssAutoConfiguration {
     @Bean
     public OSSClientService ossClientService() {
         return new OSSClientService(ossClient());
+    }
+
+    @Bean
+    public OSSGet ossDefaultGet() {
+        return new OSSDefaultGet(ossClient());
+    }
+
+    @Bean
+    public OSSPut ossDefaultPut() {
+        return new OSSDefaultPut(ossClient());
     }
 
 }
