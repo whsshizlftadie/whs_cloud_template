@@ -38,7 +38,6 @@ public class RedisRepositoryConfig {
 
     /**
      * 设置CacheManager缓存规则
-     *
      * @param factory
      * @return
      */

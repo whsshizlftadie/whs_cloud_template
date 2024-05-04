@@ -16,6 +16,7 @@
         <module>gateway</module>
         <module>auth_serve</module>
         <module>oss-starter</module>
+        <module>elasticsearch-stater</module>
     </modules>
 
     <properties>
