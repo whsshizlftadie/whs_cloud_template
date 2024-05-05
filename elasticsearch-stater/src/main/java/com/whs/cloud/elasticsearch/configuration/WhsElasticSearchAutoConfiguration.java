@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.whs.cloud.elasticsearch.usage.document.crud.opeartion.DocOperation;
 import com.whs.cloud.elasticsearch.usage.document.search.operation.SearchOperation;
 import com.whs.cloud.elasticsearch.usage.index.operation.IndexOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -21,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@EnableAutoConfiguration
 @Configuration
 @ConditionalOnClass(RestHighLevelClient.class)
 public class WhsElasticSearchAutoConfiguration {
@@ -36,6 +36,14 @@ public class WhsElasticSearchAutoConfiguration {
     @Bean(value = "esHighLevelClient")
     public RestHighLevelClient restHighLevelClient() {
         HttpHost[] httpHosts = createHosts();
+        //将地址转换为http主机数组，未配置端口则采用默认9200端口，配置了端口则用配置的端口
+
+
+        if(StringUtils.isBlank(userName)){
+            RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(httpHosts));
+            return client;
+        }
+
         RestClientBuilder restClientBuilder = RestClient.builder(httpHosts)
                 .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                     @Override

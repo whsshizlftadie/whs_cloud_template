@@ -224,7 +224,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         Pager<User> userPager = new Pager<>();
         userPager.setCurrent(request.getCurrent()).setSize(request.getSize());
         userPager.setOrders(TimeOrderSet.CREAT_TIME_DESC);
-        Pager<User> page = page(userPager, lambdaQuery().eq(User::getIsDelete, 0));
+        Pager<User> page = page(userPager, lambdaQuery().eq(User::getIsDelete, 0).getWrapper());
 
         PageResponse<User> userPageResponse = new PageResponse<>();
 
