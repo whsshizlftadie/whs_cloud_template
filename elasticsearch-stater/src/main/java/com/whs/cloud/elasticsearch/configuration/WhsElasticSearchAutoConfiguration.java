@@ -24,7 +24,7 @@ import java.util.List;
 @EnableAutoConfiguration
 @Configuration
 @ConditionalOnClass(RestHighLevelClient.class)
-public class ElasticSearchAutoConfiguration {
+public class WhsElasticSearchAutoConfiguration {
 
     @Value("${spring.elasticsearch.rest.uris}")
     private List<String> uris;
@@ -78,7 +78,7 @@ public class ElasticSearchAutoConfiguration {
         return uris;
     }
 
-    public ElasticSearchAutoConfiguration setUris(List<String> uris) {
+    public WhsElasticSearchAutoConfiguration setUris(List<String> uris) {
         this.uris = uris;
         return this;
     }
@@ -87,7 +87,7 @@ public class ElasticSearchAutoConfiguration {
         return userName;
     }
 
-    public ElasticSearchAutoConfiguration setUserName(String userName) {
+    public WhsElasticSearchAutoConfiguration setUserName(String userName) {
         this.userName = userName;
         return this;
     }
@@ -96,7 +96,7 @@ public class ElasticSearchAutoConfiguration {
         return password;
     }
 
-    public ElasticSearchAutoConfiguration setPassword(String password) {
+    public WhsElasticSearchAutoConfiguration setPassword(String password) {
         this.password = password;
         return this;
     }

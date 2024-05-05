@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.whs.cloud.elasticsearch.configuration.ElasticSearchAutoConfiguration
+com.whs.cloud.elasticsearch.configuration.WhsElasticSearchAutoConfiguration

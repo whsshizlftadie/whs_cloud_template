@@ -2,6 +2,7 @@ package com.whs.cloud.auth.controller.resource;
 
 
 import com.whs.cloud.auth.bean.Resource;
+
 import com.whs.cloud.auth.bean.request.resource.ResourceBindRoleRequest;
 import com.whs.cloud.auth.service.ResourceService;
 import com.whs.cloud.basic.result.RestResult;
