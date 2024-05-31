@@ -3,6 +3,7 @@ package com.whs.cloud.elasticsearch.usage.index.operation;
 import com.whs.cloud.elasticsearch.ex.ElasticSearchException;
 import com.whs.cloud.elasticsearch.usage.index.CreateIndex;
 import com.whs.cloud.elasticsearch.usage.index.DeleteIndex;
+import com.whs.cloud.elasticsearch.usage.index.GetIndexName;
 import com.whs.cloud.elasticsearch.usage.index.definition.IndexDefinition;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -17,7 +18,7 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.util.Map;
 
-public class IndexOperation implements CreateIndex, DeleteIndex {
+public class IndexOperation implements CreateIndex, DeleteIndex, GetIndexName {
 
     private final RestHighLevelClient restHighLevelClient;
 
@@ -84,4 +85,8 @@ public class IndexOperation implements CreateIndex, DeleteIndex {
         }
     }
 
+    @Override
+    public String getIndexName(Object object) {
+        return object.getClass().getSimpleName();
+    }
 }

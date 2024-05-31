@@ -4,13 +4,16 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.*;
 
 @Component
+@RefreshScope
 public class JWTUtils {
+
 
     @Value("${jwt.sign}")
     private String sign;
